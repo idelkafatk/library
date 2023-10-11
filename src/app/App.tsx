@@ -1,46 +1,44 @@
-import React, { useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { store } from './redux'
-import axios from 'axios'
+import { PageHeader } from '../shared/ui/header'
+import './styles/antCustomStyles.less'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Layout } from 'antd'
+import { Sidebar } from '../shared/ui/navigation'
+import GlobalAntDesignStyles from './styles/GlobalAntDesignStyles'
+import { SearchPage } from '../pages'
+import GlobalStyle from './styles/GlobalStyle'
+import { BookDetailPage } from '../pages/books/ui/BookDetailPage'
 
 const App = () => {
-  const libraryApi = axios.create({
-    baseURL: 'https://openlibrary.org/api/',
-  })
-
-  const [bookData, setBookData] = useState(null) // Состояние для хранения данных о книге
-
-  useEffect(() => {
-    const fetchBook = async () => {
-      try {
-        const response = await libraryApi.get('books', {
-          params: {
-            bibkeys: 'ISBN:0451526538',
-            callback: 'mycallback',
-          },
-        })
-
-        setBookData(response.data)
-      } catch (error) {
-        console.error('Ошибка при получении книги', error)
-      }
-    }
-
-    fetchBook()
-  }, []) // Запускаем запрос один раз при монтировании компонента
-
   return (
-    <Provider store={store}>
-      <div>
-        <h1>Hi</h1>
-        {bookData && (
-          <div>
-            <h2>Book Information</h2>
-            <pre>{JSON.stringify(bookData, null, 2)}</pre>
-          </div>
-        )}
-      </div>
-    </Provider>
+    <>
+      <GlobalAntDesignStyles />
+      <GlobalStyle />
+      <Provider store={store}>
+        <BrowserRouter>
+          <Layout style={{ height: '100vh' }}>
+            <PageHeader />
+            <Layout>
+              <Sidebar />
+              <Layout>
+                <Switch>
+                  <Route exact path={'/'}>
+                    <h1>HI</h1>
+                  </Route>
+                  <Route exact path={'/book/:bookId'}>
+                    <BookDetailPage />
+                  </Route>
+                  <Route exact path={'/search'}>
+                    <SearchPage />
+                  </Route>
+                </Switch>
+              </Layout>
+            </Layout>
+          </Layout>
+        </BrowserRouter>
+      </Provider>
+    </>
   )
 }
 export default App
