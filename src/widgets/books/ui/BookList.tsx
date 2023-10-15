@@ -15,7 +15,7 @@ interface IBookListProps {
 
 const StyledContainer = styled.div`
   display: flex;
-  height: calc(100vh - 60px);
+  height: calc(100svh - 60px);
   flex-direction: column;
   justify-content: space-between;
   padding: 50px 10px 50px 10px;

@@ -68,7 +68,7 @@ const CustomStyledImage = styled(StyledImage)`
 const StyledContent = styled(Content)`
   background-color: #fff;
   overflow: auto;
-  height: 100vh;
+  height: 100svh;
   padding-bottom: 100px;
 `
 
