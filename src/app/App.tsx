@@ -16,7 +16,7 @@ const App = () => {
       <GlobalStyle />
       <Provider store={store}>
         <BrowserRouter>
-          <Layout style={{ height: '100vh' }}>
+          <Layout style={{ height: '100svh' }}>
             <PageHeader />
             <Layout>
               <Sidebar />
