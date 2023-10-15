@@ -3,4 +3,7 @@ import { styled } from 'styled-components'
 
 const { Content } = Layout
 
-export const StyledContent = styled(Content)``
+export const StyledContent = styled(Content)`
+  @media (max-width: 767px) {
+  }
+`

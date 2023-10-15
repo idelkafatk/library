@@ -9,6 +9,7 @@ const { Search } = Input
 
 const StyledSearch = styled(Search)`
   max-width: 300px;
+
   & input {
     border-radius: 50px;
   }

@@ -6,9 +6,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Layout } from 'antd'
 import { Sidebar } from '../shared/ui/navigation'
 import GlobalAntDesignStyles from './styles/GlobalAntDesignStyles'
-import { SearchPage } from '../pages'
+import { SearchPage, BookDetailPage, FavouritePage, MainPage } from '../pages'
 import GlobalStyle from './styles/GlobalStyle'
-import { BookDetailPage } from '../pages/books/ui/BookDetailPage'
 
 const App = () => {
   return (
@@ -24,7 +23,10 @@ const App = () => {
               <Layout>
                 <Switch>
                   <Route exact path={'/'}>
-                    <h1>HI</h1>
+                    <MainPage />
+                  </Route>
+                  <Route exact path={'/favourite'}>
+                    <FavouritePage />
                   </Route>
                   <Route exact path={'/book/:bookId'}>
                     <BookDetailPage />

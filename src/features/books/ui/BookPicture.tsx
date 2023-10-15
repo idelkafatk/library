@@ -7,7 +7,7 @@ interface IBookPictureProps {
   title: string
 }
 
-const CustomSkeletonImage = () => (
+export const CustomSkeletonImage = () => (
   <Skeleton.Image style={{ width: 220, height: 320, border: 5 }} />
 )
 

@@ -1,4 +1,4 @@
-import { Layout, notification, Skeleton, Tag, Typography } from 'antd'
+import { Layout, Skeleton, Tag, Typography } from 'antd'
 import { styled } from 'styled-components'
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -13,6 +13,7 @@ import {
   useTypedSelector,
 } from '../../../shared/lib'
 import { getBookInfo } from '../../../features/books/model/bookInfoSlice'
+import { CustomSkeletonImage } from '../../../features/books'
 
 const { Content } = Layout
 const { Text } = Typography
@@ -35,6 +36,10 @@ const ImageContainer = styled.div`
   padding: 50px 50px 0 50px;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 767px) {
+    padding: 0 50px;
+  }
 `
 
 const TitleContainer = styled.div`
@@ -48,6 +53,12 @@ const TitleContainer = styled.div`
 
 const ContentContainer = styled.div`
   display: flex;
+
+  @media (max-width: 767px) {
+    justify-content: center;
+    flex-flow: column wrap;
+    align-items: center;
+  }
 `
 
 const CustomStyledImage = styled(StyledImage)`
@@ -65,6 +76,14 @@ const StyledText = styled(Text)`
   color: #282c35;
 `
 
+const Description: FC<{ descr: string | JSX.Element }> = ({ descr }) => {
+  return (
+    <DescriptionContainer>
+      <StyledText>{descr}</StyledText>
+    </DescriptionContainer>
+  )
+}
+
 const GenresContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -74,6 +93,10 @@ const GenresContainer = styled.div`
 
 const DescriptionContainer = styled.div`
   padding: 50px 50px 0 0;
+
+  @media (max-width: 767px) {
+    padding: 25px 50px 0 50px;
+  }
 `
 
 export const BookDetail: FC = () => {
@@ -86,56 +109,60 @@ export const BookDetail: FC = () => {
     dispatch(getBookInfo(bookId))
   }, [bookId])
 
-  console.log(data)
-
   if (status === 'error') {
-    return <ErrorBoundary />
+    return <ErrorBoundary>Произошла ошибка</ErrorBoundary>
   }
 
   const renderBookDetail = () => {
     const extendedData = data && extendBookInfo(data)
-    const { title, description, authors, cover_img, summary, type, key } =
-      extendedData || {}
+    const { title, description, rate, cover_img, genres } = extendedData || {}
+
     const image = isLoading ? (
       <Skeleton.Avatar
         shape="square"
         style={{ width: 220, height: 320, border: 5, borderRadius: 5 }}
         active
       />
-    ) : (
+    ) : cover_img ? (
       <CustomStyledImage preview={false} src={cover_img} alt={title} />
+    ) : (
+      <CustomSkeletonImage />
     )
+
     const showTitle = isLoading ? (
       <Skeleton.Input style={{ width: 300 }} active />
     ) : (
       title
     )
+
     const descr = isLoading ? (
       <Skeleton title={false} paragraph={{ rows: 3 }} active />
     ) : (
-      description
+      description || 'Информация о книге отсутствует.'
     )
-    // const showRate = isLoading ? (
-    //   <BookRate rate={0}></BookRate>
-    // ) : (
-    //   <BookRate rate={parseFloat(summary!.average)}></BookRate>
-    // )
-    // const showGenres =
-    //     isLoading ? null : (
-    //     <GenresContainer>
-    //       {genres?.map(({ mal_id, name }) => {
-    //         return (
-    //           <Tag
-    //             color="black"
-    //             style={{ borderRadius: 5, height: 20, marginBottom: 5 }}
-    //             key={mal_id}
-    //           >
-    //             {name}
-    //           </Tag>
-    //         )
-    //       })}
-    //     </GenresContainer>
-    //   )
+
+    const showRate =
+      isLoading || !rate ? (
+        <BookRate rate={0}></BookRate>
+      ) : (
+        <BookRate rate={parseFloat(rate)}></BookRate>
+      )
+
+    const showGenres = isLoading ? null : (
+      <GenresContainer>
+        {genres?.map((genre, i) => {
+          return (
+            <Tag
+              color="black"
+              style={{ borderRadius: 5, height: 20, marginBottom: 5 }}
+              key={i}
+            >
+              {genre}
+            </Tag>
+          )
+        })}
+      </GenresContainer>
+    )
 
     return (
       <StyledContent>
@@ -147,11 +174,11 @@ export const BookDetail: FC = () => {
         <ContentContainer>
           <LeftCol>
             <ImageContainer>{image}</ImageContainer>
+            {showGenres}
+            {showRate}
           </LeftCol>
           <RightCol>
-            <DescriptionContainer>
-              <StyledText>{description}</StyledText>
-            </DescriptionContainer>
+            <Description descr={descr}></Description>
           </RightCol>
         </ContentContainer>
       </StyledContent>

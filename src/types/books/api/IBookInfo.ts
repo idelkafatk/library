@@ -7,13 +7,22 @@ export interface IBookInfo {
   type: {
     key: string
   }
-  description: string
+  description: IBookDescription | string
   covers: number[]
+  subjects?: string[]
   summary: {
     average: string
   }
 }
 
 export interface IBookInfoExtended extends IBookInfo {
+  description: string
+  rate: string
+  genres?: string[]
   cover_img: string | undefined
+}
+
+interface IBookDescription {
+  type: string
+  value: string
 }

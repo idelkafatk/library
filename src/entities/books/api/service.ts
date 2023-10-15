@@ -1,10 +1,7 @@
-import axios, { AxiosResponse } from 'axios'
+import { AxiosResponse } from 'axios'
 import { IBookList } from '../../../types/books/api/IBookList'
 import { IBookInfo } from '../../../types/books/api/IBookInfo'
-
-const libraryApi = axios.create({
-  baseURL: 'https://openlibrary.org/',
-})
+import { libraryApi } from '../../../shared/api'
 
 export const BookService = {
   async searchBooks(q: string): Promise<AxiosResponse<IBookList>> {

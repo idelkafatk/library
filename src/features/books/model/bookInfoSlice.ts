@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { IBook } from '../../../types/books/api/IBook'
-import { BookService } from '../../../entities/books/api/service'
+import { BookService } from '../../../entities'
 import { IBookInfo } from '../../../types/books/api/IBookInfo'
 
 interface BookInfoState {

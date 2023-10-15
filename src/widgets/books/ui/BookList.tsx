@@ -46,7 +46,6 @@ export const BookList: FC<IBookListProps> = ({ bookList, isError }) => {
     )
   }
 
-  console.log('--- render BookList ---')
   const renderBookCards = (): JSX.Element => {
     return (
       <StyledBookList>

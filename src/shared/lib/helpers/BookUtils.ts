@@ -20,9 +20,23 @@ export const makeBookItems = (books: IBook[]): IBookItem[] =>
   }))
 
 export const extendBookInfo = (bookInfo: IBookInfo): IBookInfoExtended => {
+  const text =
+    typeof bookInfo.description === 'string'
+      ? bookInfo.description
+      : bookInfo.description?.value
+
+  const descr =
+    text &&
+    text
+      .replace(/-{10}[\s\S]*$/, '')
+      .replace(/\(?\[[sS]ource]\[\d+]([\s\S]*\[\d+])?\)?:?[\s\S]*$/, '')
+
   return {
     ...bookInfo,
-    cover_img: bookInfo.covers.length
+    description: descr,
+    genres: bookInfo.subjects?.slice(0, 5),
+    rate: bookInfo.summary.average,
+    cover_img: bookInfo.covers?.length
       ? `${BOOK_COVER_URL}${bookInfo.covers[0]}-${TypeBookCoverSize.L}.jpg`
       : undefined,
   }

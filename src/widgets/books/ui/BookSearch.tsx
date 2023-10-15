@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
 import { makeBookItems, useTypedSelector } from '../../../shared/lib'
-import { CustomEmpty } from '../../../shared/ui/kit/ui/CustomEmpty'
+import { CustomEmpty } from '../../../shared/ui/kit'
 import { IBookItem } from '../../../types/books/api/IBookList'
 import { BookList } from './BookList'
 

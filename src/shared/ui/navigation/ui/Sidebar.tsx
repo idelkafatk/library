@@ -10,6 +10,10 @@ const StyledSider = styled(Sider)`
   background: transparent;
   border-right: 10px #282c35;
   display: flex;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `
 
 export const Sidebar: FC = () => {
