@@ -34,7 +34,10 @@ const SearchWrapper = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
 `
-export const MenuModal: FC<IMenuModalProps> = ({ showMenuModal }) => {
+export const MenuModal: FC<IMenuModalProps> = ({
+  showMenuModal,
+  setShowMenuModal,
+}) => {
   return (
     <SidebarContainer open={showMenuModal}>
       <SearchWrapper>
